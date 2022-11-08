@@ -1,51 +1,77 @@
-//global variables
+//To Do, add the printlns to verify the values
+//Algorithm works when image is bigger than the CANVAS, not smaller
+//Different Algorithm is necessary - work to get above 65%
 //
+//Global Variables
 int appWidth, appHeight;
-float backgroundImageX, backgroundimageY, backgroundimageWidth, backgroundimageHeight;
+float backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight;
 float smallerDimension, largerDimension, imageWidthRatio=0.0, imageHeightRatio=0.0;
-Boolean widthLarger= false, heightLarger=false;
+Boolean widthLarger=false, heightLarger=false;
 PImage pic;
 Boolean nightMode=false;
 //
-size(1920, 1080); //landscape
-//copy display algorithm
+size(900, 800); //Landscape
+//Copy Display Algorithm from Hello World
 appWidth = width;
 appHeight = height;
 //
-//aspect ratio of background image
+//Aspect Ratio of Background Image
+//Obi-wan-star-wars-jedi-23864621-800-600.jpg
+//Note: Dimensions are found in the image file / Right Click / Properties / Details
 int picWidth = 900;
 int picHeight = 600;
-//image oreintation: landscape, square, portrait
-if (picWidth >= picHeight) {//true if landscape or square
-largerDimension = picWidth;
-smallerDimension = picHeight;
-widthLarger = true;
-} else {//false if portrit
-largerDimension = picHeight;
-smallerDimension = picWidth;
-heightLarger = true;
+//Image Orientation: Landscape, Square, Portrait
+if ( picWidth >= picHeight ) { //True if Landscape or Square
+  largerDimension = picWidth;
+  smallerDimension = picHeight;
+  widthLarger = true;
+} else { //False if Portrait
+  largerDimension = picHeight;
+  smallerDimension = picWidth;
+  heightLarger = true;
 }
 //
-//Aspect ratio calculations
-if (widthLarger ==true) imageWidthRatio = largerDimension/largerDimension;
-if (widthLarger ==true) imageHeightRatio = smallerDimension/largerDimension;
-if (heightLarger == true) imageWidthRatio = smallerDimension/largerDimension;
-if (heightLarger == true) imageHeightRatio = largerDimension/largerDimension;
-//population
+/*Aspect Ratio Calculations, Older Calculations
+ if ( widthLarger == true ) imageWidthRatio = largerDimension / largerDimension;
+ if ( widthLarger == true ) imageHeightRatio = smallerDimension / largerDimension;
+ if ( heightLarger == true ) imageWidthRatio = smallerDimension / largerDimension;
+ if ( heightLarger == true ) imageHeightRatio = largerDimension / largerDimension;
+ */
+//
+//Better Image Stretch Algorithm
+float picWidthAdjusted=0.0, picHeightAdjusted=0.0;
+//We know the width is the larger dimension
+if ( appWidth >= picWidth ) {
+  picWidthAdjusted = appWidth; //Stretching larger dimension
+  //
+  if ( widthLarger == true ) imageWidthRatio = largerDimension / largerDimension;
+  if ( heightLarger == true ) imageWidthRatio = smallerDimension / largerDimension;
+  //
+  if ( appHeight >= picHeight ) {
+    //Calculated Dimension b/c smaller than width
+    if ( widthLarger == true ) imageHeightRatio = smallerDimension / largerDimension;
+    if ( heightLarger == true ) imageHeightRatio = largerDimension / largerDimension;
+    picHeightAdjusted = picWidthAdjusted * imageHeightRatio;
+  } else {
+    //Image smaller than CANVAS needs separate algorithm
+  }
+} else {
+  //Image smaller than CANVAS, needs separate algorithm
+}
+//
+//Population
 pic = loadImage("../Images Used/boom.jpg");
 backgroundImageX = appWidth*0;
-backgroundimageY = appHeight*0;
-backgroundimageWidth = appWidth-1;
-backgroundimageHeight = appHeight-1;
+backgroundImageY = appHeight*0;
+backgroundImageWidth = appWidth-1;
+backgroundImageHeight = appHeight-1;
 //
-//adjust image variables for aspect ratio
-float picWidthAdjusted, picHeightAdjusted;
-picWidthAdjusted = backgroundimageWidth * imageWidthRatio;
-picHeightAdjusted = backgroundimageHeight * imageHeightRatio;
-//rectangular layout and image drawing to canvas
-rect(backgroundImageX, backgroundimageY, backgroundimageWidth, backgroundimageHeight);
+println( appWidth, picWidth, picWidthAdjusted );
+println( appHeight, picHeight, picHeightAdjusted );
 //
-if (nightMode == false ) tint(255, 64); //gray scale, day use
-if (nightMode == true ) tint(64, 64, 40); //rgb nightmode
-image(pic, backgroundImageX, backgroundimageY, backgroundimageWidth, backgroundimageHeight);
-image(pic, width/2, 0);
+//Rectangular Layout and Image Drawing to CANVAS
+//rect( backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight );
+//
+if ( nightMode == false ) tint(255, 64); //Gray Scale, Day use: use 1/2 tint value for white (i.e. 128/256=1/2)
+if ( nightMode == true ) tint(64, 64, 40); //RGB: Night Mode
+image( pic, backgroundImageX, backgroundImageY, picWidthAdjusted, picHeightAdjusted);
