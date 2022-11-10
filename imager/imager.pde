@@ -5,6 +5,8 @@
 //Global Variables
 int appWidth, appHeight;
 float backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight;
+float topX, topY, topWidth, topHeight;
+float bottomX, bottomY, bottomWidth, bottomHeight;
 float picWidthAdjusted=0.0, picHeightAdjusted=0.0;
 PImage pic;
 Boolean nightMode=false;
@@ -18,14 +20,19 @@ void setup()
   appHeight = height;
   //
   //Image Dimensions for Aspect Ratio
-  //Obi-wan-star-wars-jedi-23864621-800-600.jpg
+  //boom.jpg
   //Note: Dimensions are found in the image file / Right Click / Properties / Details
   int picWidth = 800;
   int picHeight = 600;
+  int picWidth2 = 325;
+  int picHeight2 = 485;
+  //int picWidth3 = ;
+  //int picHeight3 = ;
   //
   //Image Orientation: Landscape, Square, Portrait
   float smallerDimension, largerDimension, imageWidthRatio=0.0, imageHeightRatio=0.0;
-  Boolean widthLarger=false, heightLarger=false;
+  float smallerDimension2, largerDimension2;
+  Boolean widthLarger=false, heightLarger=false, widthLarger2=false, heightLarger2=false;;
   if ( picWidth >= picHeight ) { //True if Landscape or Square
     largerDimension = picWidth;
     smallerDimension = picHeight;
@@ -34,6 +41,17 @@ void setup()
     largerDimension = picHeight;
     smallerDimension = picWidth;
     heightLarger = true;
+  }
+  if ( picWidth2 >= picHeight2 ) { //True if Landscape or Square
+    largerDimension2 = picWidth2;
+    smallerDimension2 = picHeight2;
+    widthLarger2 = true;
+    //Landscape Image larger image to smaller rectangle (or larger)
+  } else { //False if Portrait
+    largerDimension2 = picHeight2;
+    smallerDimension2 = picWidth2;
+    heightLarger2 = true;
+    //Portrait Image larger image to smaller rectangle (or larger)
   }
   //
   //Teaching Example: width is known to be larger
@@ -62,10 +80,20 @@ void setup()
   //
   //Population
   pic = loadImage("../Images Used/boom.jpg");
+  pic2 = loadImage("../Images Used/");
+  pic3 = loadImage("../Images Used/");
   backgroundImageX = appWidth*0;
   backgroundImageY = appHeight*0;
   backgroundImageWidth = appWidth-1;
   backgroundImageHeight = appHeight-1;
+  topX = appWidth * 1/4;
+  topY = appHeight * 1/20;
+  topWidth = appWidth * 1/2;
+  topHeight = appHeight * 13/20;
+  bottomX = appWidth *1/2;
+  bottomY = appHeight * 3/4;
+  bottomWidth = appWidth * 1/4;
+  bottomHeight = appHeight * 4/20;
   //
   //Verify Variable Values after Algorithm
   println("App Width:", appWidth, " and App Height:", appHeight);
@@ -75,6 +103,8 @@ void setup()
   //
   //Rectangular Layout and Image Drawing to CANVAS
   //rect( backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight );
+  rect( topX, topY, topWidth, topHeight );
+  rect( bottomX, bottomY, bottomWidth, bottomHeight );
   //
   //Background Image must be single executed code
   if ( nightMode == false ) tint(tintDayMode, tintDayModeOpacity); //Gray Scale, Day use: use 1/2 tint value for white (i.e. 128/256=1/2)
